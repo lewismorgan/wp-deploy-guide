@@ -1,0 +1,23 @@
+name: Staging Deployment
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        with:
+          ftp-server: ${{ secrets.FTP_STAGE_SERVER }}
+          ftp-username: ${{ secrets.FTP_STAGE_USER }}
+          ftp-password: ${{ secrets.FTP_STAGE_PASSWORD }}
+          # The directory that will be uploaded. Anything that is not in this folder will not be uploaded.
+          local-dir: public
+          #git-ftp-args: --dry-run
