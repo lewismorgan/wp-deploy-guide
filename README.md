@@ -35,6 +35,8 @@
     - [Site Domains Mode](#site-domains-mode)
     - [ftp-deploy Action](#ftp-deploy-action)
     - [Backup Database](#backup-database)
+      - [Using MySQLDump](#using-mysqldump)
+      - [Using SiteGrounds with PhpMyAdmin](#using-sitegrounds-with-phpmyadmin)
 
 ---
 
@@ -490,6 +492,32 @@ Mitigate this by changing fetch-depth to a number higher than the commits `stagi
 
 ### Backup Database
 
-Create a backup the database by running the following command in a shell
+#### Using MySQLDump
+
+Create a backup of the database by running the following command in a shell:
 
 `mysqldump --skip-add-drop-table $DB_NAME > backup.sql`
+
+#### Using SiteGrounds with PhpMyAdmin
+
+From SiteGrounds, you can follow the guide located at "[How to export a MySQL database](https://www.siteground.com/kb/how-to-export-mysql-database/)".
+A more detailed guide using the PhpMyAdmin Tool on database exporting is located [here](https://www.siteground.com/tutorials/phpmyadmin/administration/#Export).
+
+The following settings should be used when exporting with PhpMyAdmin:
+
+- Export method
+  - Custom - display all possible options
+- Format
+  - SQL
+- Databases
+  - Select the database that has the WordPress site installed on it
+- Output
+  - Uncheck 'Rename exported database/tables/columns
+  - Select save output to file
+    - Character set of file: utf-8
+    - Compression: None
+    - Uncheck 'Export database as seperate files' (otherwise you would have to load mutliple files in the database loading step)
+  - Ensure 'Skip tables larger than ... MiB' is empty
+
+Once the export is completed, your browser should automatically start downloading the file.
+Save the file into a location that can be easily accessed for repository setup (Shared network location or restricted FTP location).
